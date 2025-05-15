@@ -7,32 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/*
-Esercizio #1
-Raggruppare gli ordini per cliente utilizzando Stream e Lambda Expressions. Crea una mappa in cui la chiave è il cliente e il valore è una lista di ordini effettuati da quel cliente
-
-Esercizio #2
-Dato un elenco di ordini, calcola il totale delle vendite per ogni cliente utilizzando Stream e Lambda Expressions. Crea una mappa in cui la chiave è il cliente e il valore è l'importo totale dei suoi acquisti
-
-Esercizio #3
-Dato un elenco di prodotti, trova i prodotti più costosi utilizzando Stream e Lambda Expressions
-
-Esercizio #4
-Dato un elenco di ordini, calcola la media degli importi degli ordini utilizzando Stream e Lambda Expressions
-
-Esercizio #5
-Dato un elenco di prodotti, raggruppa i prodotti per categoria e calcola la somma degli importi per ogni categoria utilizzando Stream e Lambda Expressions.
-
-[EXTRA] Esercizio #6
-Usando la classe Apache Commons IO FileUtils implementare un metodo salvaProdottiSuDisco che salvi su disco un file contenente la lista dei prodotti.
-Utilizzare un formato simile al seguente per storicizzare i dati su file:
-nomeprodotto1@categoriaprodotto1@prezzoprodotto1#nomeprodotto2@categoriaprodotto2@prezzoprodotto2
-
-[EXTRA] Esercizio #7
-Sempre usando la classe Apache Commons IO FileUtils implementare un metodo leggiProdottiDaDisco che riempia un ArrayList con il contenuto del file salvato al punto 6
-
-
- */
 
 public class Main {
     public static void main(String[] args) {
@@ -57,22 +31,31 @@ public class Main {
 
         List<Order> listaOrdini = List.of(o1,o2,o3);
 
-        // es 1
+        // Esercizio #1
+        //Raggruppare gli ordini per cliente utilizzando Stream e Lambda Expressions. Crea una mappa in cui la chiave è il cliente e il valore è una lista di ordini effettuati da quel cliente
         Map<Customer, List<Order>> ordiniPerCliente = listaOrdini.stream().collect(Collectors.groupingBy(Order::getCustomer));
         System.out.println(ordiniPerCliente);
 
-        // es 2
-//        Map<Customer, Double> priceOrdini = listaOrdini.stream()
-//                .collect(Collectors.toMap(Order::getCustomer, order -> order.getProducts()
-//                        .stream().mapToDouble(Product::getPrice).sum(), Double::sum));
-//        System.out.println(priceOrdini);
-        //es 3
+        // Esercizio #2
+        //Dato un elenco di ordini, calcola il totale delle vendite per ogni cliente utilizzando Stream e Lambda Expressions.
+        // Crea una mappa in cui la chiave è il cliente e il valore è l'importo totale dei suoi acquisti
+
+//        Map<Customer, Double> priceOrdini = listaOrdini.stream().collect(Collectors.groupingBy(Order::getCustomer, Collectors
+//                .summingDouble(ordine ->ordine.getProducts().stream().mapToDouble(Product::getPrice).sum())));
+
+        //System.out.println(priceOrdini);
+
+        //Esercizio #3
+        //Dato un elenco di prodotti, trova i prodotti più costosi utilizzando Stream e Lambda Expressions
         System.out.println("prodotto più costoso: " + prodotti.stream().max(Comparator.comparing(Product::getPrice)));
                           // giulia
         DoubleSummaryStatistics pricey =  prodotti.stream().collect(Collectors.summarizingDouble(Product::getPrice));
         System.out.println("prezzo più alto: "+ pricey.getMax());
-        // es4
+        //Esercizio #4
+        //Dato un elenco di ordini, calcola la media degli importi degli ordini utilizzando Stream e Lambda Expressions
         System.out.println("media prezzi: " + pricey.getAverage());
+                         //oppure
+        //listaOrdini.stream().mapToDouble(order -> order.getProducts().stream())
         //Esercizio #5
         //Dato un elenco di prodotti, raggruppa i prodotti per categoria e calcola la somma degli importi per ogni categoria utilizzando Stream e Lambda Expressions.
         Map<String, Double> perCategoria = prodotti.stream().collect(Collectors.groupingBy(Product::getCategory, Collectors.summingDouble(Product::getPrice)));
